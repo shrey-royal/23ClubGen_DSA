@@ -1,0 +1,55 @@
+Time complexity is defined as the number of times a particular instructions set is executed rather than the total time taken.It is because the total time taken is also depends on some external factors like the compiler, processor's speed, etc.
+
+Space complexity is defined as the amount of memory space required by an algorithm to execute it.
+
+Big O notation is used to represent the time complexity of an algorithm.
+
+it represents the worst-case scenario.
+
+in Big O, there are six major types of complexities (time and space):
+
+Constant time complexity: O(1)
+Linear time complexity: O(n)
+Logarithmic time complexity: O(log n)
+Quadratic time complexity: O(n^2)
+Expotential time complexity: O(2^n)
+Factorial time complexity: O(n!)
+
+
+Best to worst time complexity
+
+O(1) < O(log n) < O(n) < O(n log n) < O(n^2) < O(n^3) < O(2^n) < O(n!) < O(n^n)
+
+complexity depends on Time, size of input, and the number of operations.
+
+example of O(1) complexity:
+
+int arr[3] = {1, 2, 3};
+cout << arr[0] << endl; // O(1)
+
+example of O(n) complexity:
+
+int arr[3] = {1, 2, 3};
+for (int i = 0; i < 3; i++) {
+    cout << arr[i] << endl; // O(n)
+}
+
+example of O(n^2) complexity:
+
+int arr[3] = {1, 2, 3};
+for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+        cout << arr[i] << endl; // O(n^2)
+    }
+}
+
+
+//
+
+Big O(O()) describes the upper bound of the time complexity of an algorithm. It is used to describe the worst-case scenario.
+
+Omega Ω(Ω()) describes the lower bound of the time complexity of an algorithm. It is used to describe the best-case scenario.
+
+Theta Θ(Θ()) describes the tight bound of the time complexity of an algorithm. It is used to describe the average-case scenario.
+
+Little O o() describes the upper bound of the time complexity of an algorithm. It is used to describe the worst-case scenario.

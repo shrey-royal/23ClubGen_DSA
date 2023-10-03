@@ -1,0 +1,27 @@
+Array: Collection of data belongs to the same data type. 
+> It is a fixed size sequential collection of elements of the same type. 
+> An array is used to store a collection of data, but it is often more useful to think of an array as a collection of variables of the same type. 
+> Instead of declaring individual variables, such as number0, number1, ..., and number99, you declare one array variable such as numbers and use numbers[0], numbers[1], and ..., numbers[99] to represent individual variables. 
+> A specific element in an array is accessed by an index. 
+> All arrays consist of contiguous memory locations. 
+> The lowest address corresponds to the first element and the highest address to the last element.
+
+Common Operations on Arrays:
+
+> Insertion: insert at first, insert at last, insert at any position
+> Traversal: Print array elements in forward and backward direction
+> Updating: Update any element of array based on index, Update all elements of array based on given value.
+> Deletion: delete first element, delete last element, delete any element based on index, delete all elements based on given value.
+> Merging: merge two arrays into one array
+> Sorting: 
+    > Sorting Methods:
+        1. Bubble Sort
+        2. Selection Sort
+        3. Insertion Sort
+        4. Quick Sort
+        5. Merge Sort
+        6. Heap Sort
+
+> Searching:
+    > Linear Search
+    > Binary Search
