@@ -5,6 +5,9 @@ int linearSearch(int*, int, int);
 int binarySearch(int*, int, int);
 void printArray(int*, int);
 
+void swap(int*, int*);
+void bubbleSort(int*, int);
+
 void main() {
     int size, choice, *arr, key, index;
     printf("\nEnter the size for the array: ");
@@ -40,7 +43,8 @@ void main() {
                 break;
 
             case 2:
-                // binarySearch(arr, size, key);
+                bubbleSort(arr, size);
+                binarySearch(arr, size, key);
                 break;
 
             case 3:
@@ -70,13 +74,53 @@ int linearSearch(int* arr, int size, int key) {
         for (int i = 0; i < size; i++) {
             count++;
             if(key == arr[i]) {
+                printf("\nLinear Search comparisons: %d\n", count);
                 return i;   //if found
             }
         }
     }
-    printf("\nTotal number of comparisons: %d\n", count);
+    printf("\nLinear Search comparisons: %d\n", count);
     return -1;  //if not found
 }
+
+int binarySearch(int * arr, int size, int key) {
+    int count = 0;
+    int low = 0, high = size-1, mid;
+
+    while(low <= high) {
+        count++;
+        mid = (low + high) / 2;
+        if(key == arr[mid]) {
+            printf("\nBinary Search comparisons: %d\n", count);
+            return mid;
+        } else if(key < arr[mid]) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }//end while
+    printf("\nBinary Search comparisons: %d\n", count);    
+    return -1;
+}
+
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}//end swap
+
+void bubbleSort(int* arr, int size) {
+    int cnt = 0;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size-1; j++) {
+            cnt++;
+            if(arr[j] > arr[j+1]) {
+                swap(&arr[j], &arr[j+1]);
+            }
+        }//end inner for
+    }//end outer for
+    // printf("\nBubble Sort comparisons: %d\n", cnt);
+}//end bubbleSort
 
 /*
 Tasks:
