@@ -5,7 +5,9 @@ void printArray(int*, int);
 void bubbleSort(int*, int);
 void selectionSort(int*, int);
 void insertionSort(int*, int);
-void swap(int*, int*);
+void quickSort(int*, int, int);
+int partition(int*, int, int); //helper function for quick sort
+void swap(int*, int*);  //helper function for swapping
 
 void main() {
     int choice, size;
@@ -40,6 +42,8 @@ void main() {
             break;
 
         case 4:
+            quickSort(arr, 0, size-1);
+            printArray(arr, size);
             break;
 
         case 5:
@@ -69,17 +73,17 @@ void printArray(int* arr, int size) {
 
 //Helper function to swap two numbers
 void swap(int* a, int* b) {
-    // int temp = *a;
-    // *a = *b;
-    // *b = temp;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 
     // int temp = *a + *b;
     // *a = temp - *a;
     // *b = temp - *b;
 
-    *a ^= *b;
-    *b ^= *a;
-    *a ^= *b;
+    // *a ^= *b;
+    // *b ^= *a;
+    // *a ^= *b;
 }
 
 //Function to sort the array using bubble sort
@@ -110,7 +114,7 @@ void selectionSort(int* arr, int size) {
 
 void insertionSort(int* arr, int size) {
     //optimised solution
-    for(int i=0; i<size; i++) {     //passes
+    for(int i=1; i<size; i++) {     //passes
         int ele = arr[i];   //mark the element as key
         int j = i-1;    //j is the index of the element before the key
         while(j>=0 && arr[j] > ele) {
@@ -120,6 +124,41 @@ void insertionSort(int* arr, int size) {
         arr[j+1] = ele; //insert the key at the correct position
     }
 }
+
+int partition(int* arr, int low, int high) {
+    //Here, we will take the last element as the pivot
+    int pivot = arr[high];
+
+    //i will point to the index of the smaller element
+    int i = low-1;
+
+    //j will point to the index of the element being checked
+    for(int j=low; j<high; j++) {
+        if(arr[j] < pivot) {
+            i++;
+            swap(&arr[i], &arr[j]); //swap the elements that are smaller than the pivot
+        }
+    }
+
+    //swap the pivot with the element at i+1
+    swap(&arr[i+1], &arr[high]);
+
+    //return the index of the pivot
+    return i;
+}
+
+void quickSort(int* arr, int low, int high) {
+    if (low < high) {
+        int indexOfPivot = partition(arr, low, high);
+
+        // Sort the left subarray
+        quickSort(arr, low, indexOfPivot - 1);
+
+        // Sort the right subarray
+        quickSort(arr, indexOfPivot + 1, high);
+    }
+}
+
 
 
 /*
