@@ -1,0 +1,23 @@
+Linked List: It is a linear data structure where the elements are not stored in contiguous locations and every element is a separate object with a data part and address part.
+
+> Where is it used?
+> To store the data at different memory locations.
+> To store data dynamically.
+
+> What are the advantages of Linked List over an array?
+> Dynamic size
+> Ease of insertion/deletion
+> Memory efficient
+
+Types of Linked List:
+1. Singly Linked List
+2. Doubly Linked List
+3. Circular Linked List
+
+
+Types of Operations that we can perform on Linked List:
+1. Insertion -> Insertion at the beginning, Insertion at the end, Insertion at the given position
+2. Deletion -> Deletion at the beginning, Deletion at the end, Deletion at the given position
+3. Traversal -> forward traversal, backward traversal
+7. Updation -> Update the value at the given position
+8. Reversing -> Reverse the linked list
