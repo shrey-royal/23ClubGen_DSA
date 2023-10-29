@@ -23,7 +23,7 @@ void InsertAtEnd(struct Node** head, int data) {
 
     if(*head == NULL) {
         *head = newNode;
-        
+        return;
     }
 
     struct Node *last = *head;
