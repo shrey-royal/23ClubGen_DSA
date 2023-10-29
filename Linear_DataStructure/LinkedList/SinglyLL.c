@@ -113,6 +113,79 @@ void deleteAtBeginning(struct Node **head) {
     }
 }
 
+//Delete from End
+void deleteAtEnd(struct Node **head) {
+    if(*head == NULL) {
+        printf("List is empty!");
+        system("pause");
+        return;
+    } else {
+        struct Node *temp = *head;
+        if(temp->next == NULL) {
+            *head = NULL;
+            free(temp);
+            return;
+        }
+
+        while(temp->next->next != NULL) {
+            temp = temp->next;
+        }
+        free(temp->next);
+        temp->next = NULL;
+    }
+}
+
+//deleteAtPosition
+void deleteAtPosition(struct Node **head, int position) {
+    struct Node *temp, *prev;
+    temp = *head;
+    prev = *head;
+
+    if(*head == NULL) {
+        printf("List is empty!");
+        system("pause");
+        return;
+    }
+    
+    if(position > getLength(*head)) {
+        printf("Position is greater than the length of the list!\n");
+        system("pause");
+        return;
+    }
+
+    if(position < 1) {
+        printf("Invalid Position!\n");
+        return;
+    }
+
+    for(int i=0; i<position; i++) {
+        if(i == 0 && position == 1) {
+            *head = (*head)->next;
+            free(temp);
+        } else {
+            if(i == position-1 && temp) {
+                prev->next = temp->next;
+                free(temp);
+            } else {
+                prev = temp;
+                if(prev == NULL) {
+                    break;
+                }
+                temp = temp->next;
+            }
+        }
+    }
+
+}
+
+//print list in reverse
+void PrintFromEnd(struct Node* head){
+    if(head == NULL) return;
+    PrintFromEnd(head->next);
+    printf("%d <- ", head->data);
+}
+
+
 int main() {
     int choice, data, position, key;
     struct Node* head = NULL;
@@ -185,11 +258,27 @@ int main() {
         case 7:
             deleteAtBeginning(&head);
             break;
+
+        case 8:
+            deleteAtEnd(&head);
+            break;
+
+        case 9:
+            printf("\nEnter the position to delete the node: ");
+            scanf("%d", &position);
+            deleteAtPosition(&head, position);
+            break;
         
         case 10:
             // system("cls");
             printf("\nList from beginning: ");
             printList(head);
+            system("pause");
+            break;
+
+        case 11:
+            printf("\nList from End: ");
+            PrintFromEnd(head);
             system("pause");
             break;
 
