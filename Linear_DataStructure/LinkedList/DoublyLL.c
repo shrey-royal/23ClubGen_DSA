@@ -56,7 +56,115 @@ struct Node* insertAfterNode(struct Node* head, struct Node* prevNode, int data)
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
     newNode->prev = prevNode;
+    newNode->next = prevNode->next;
+
+    if(prevNode->next != NULL) {
+        prevNode->next->prev = newNode;
+    }
+
+    prevNode->next = newNode;
+    return head;
 }
+
+// Insert a node before a specific node
+struct Node* insertBeforeNode(struct Node* head, struct Node* nextNode, int data) {
+    if(nextNode == NULL) {
+        printf("Next node cannot be null.\n");
+        return head;
+    }
+
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->prev = nextNode->prev;
+    newNode->next = nextNode;
+
+    if(nextNode->prev != NULL) {
+        nextNode->prev->next = newNode;
+    } else {
+        //Update the head of the list
+        head = newNode;
+    }
+    nextNode->prev = newNode;
+    return head;
+}
+
+//Search for a node with a specific value in the list
+struct Node* search(struct Node* head, int value) {
+    while(head != NULL) {
+        if(head->data == value) {
+            return head;
+        }
+        head = head->next;
+    }
+    return NULL;
+}
+
+//insert at index
+struct Node* insertAtIndex(struct Node* head, int data, int index) {
+    if(index < 0) {
+        printf("Invalid index. Index must be non-negative.\n");
+        return head;
+    }
+
+    if(index == 0 || head == NULL) {
+        return insertAtFront(head, data);
+    }
+
+    struct Node* current = head;
+    int currentIndex = 0;
+
+    while(current != NULL && currentIndex < index) {
+        current = current->next;
+        currentIndex++;
+    }
+
+    if(current == NULL) {
+        printf("Index out of bounds. Cannot insert at index %d.\n", index);
+        return head;
+    }
+
+    return insertBeforeNode(head, current, data);
+}
+
+//deletefromfront
+struct Node* deleteFromFront(struct Node* head) {
+    if(head == NULL) {
+        printf("The list is empty. Cannot delete from an empty list.\n");
+        return NULL;
+    }
+
+    struct Node* newHead = head->next;
+    free(head);
+
+    if(newHead != NULL) {
+        newHead->prev = NULL;
+    }
+    return newHead;
+}
+
+//deletefromend
+struct Node* deleteFromEnd(struct Node* head) {
+    if(head == NULL) {
+        printf("The list is empty. Cannot delete from an empty list.\n");
+        return NULL;
+    }
+
+    if(head->next == NULL) {
+        free(head);
+        return NULL;
+    }
+
+    struct Node* current = head;
+    while(current->next->next != NULL) {
+        current = current->next;
+    }
+
+    free(current->next);
+    current->next = NULL;
+
+    return head;
+}
+
 
 
 // Traverse forward
@@ -107,35 +215,35 @@ void main() {
                 scanf("%d", &data);
                 list = insertAtEnd(list, data);
                 break;
-            // case 3:
-            //     printf("Enter data to insert after: ");
-            //     scanf("%d", &data);
-            //     printf("Enter the value of the node after which to insert: ");
-            //     scanf("%d", &index);
-            //     node = search(list, index);
-            //     list = insertAfterNode(list, node, data);
-            //     break;
-            // case 4:
-            //     printf("Enter data to insert before: ");
-            //     scanf("%d", &data);
-            //     printf("Enter the value of the node before which to insert: ");
-            //     scanf("%d", &index);
-            //     node = search(list, index);
-            //     list = insertBeforeNode(list, node, data);
-            //     break;
-            // case 5:
-            //     printf("Enter data to insert: ");
-            //     scanf("%d", &data);
-            //     printf("Enter the index at which to insert: ");
-            //     scanf("%d", &index);
-            //     list = insertAtIndex(list, data, index);
-            //     break;
-            // case 6:
-            //     list = deleteFromFront(list);
-            //     break;
-            // case 7:
-            //     list = deleteFromEnd(list);
-            //     break;
+            case 3:
+                printf("Enter data to insert after: ");
+                scanf("%d", &data);
+                printf("Enter the value of the node after which to insert: ");
+                scanf("%d", &index);
+                node = search(list, index);
+                list = insertAfterNode(list, node, data);
+                break;
+            case 4:
+                printf("Enter data to insert before: ");
+                scanf("%d", &data);
+                printf("Enter the value of the node before which to insert: ");
+                scanf("%d", &index);
+                node = search(list, index);
+                list = insertBeforeNode(list, node, data);
+                break;
+            case 5:
+                printf("Enter data to insert: ");
+                scanf("%d", &data);
+                printf("Enter the index at which to insert: ");
+                scanf("%d", &index);
+                list = insertAtIndex(list, data, index);
+                break;
+            case 6:
+                list = deleteFromFront(list);
+                break;
+            case 7:
+                list = deleteFromEnd(list);
+                break;
             // case 8:
             //     printf("Enter the value of the node to delete: ");
             //     scanf("%d", &data);
