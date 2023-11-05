@@ -165,16 +165,127 @@ struct Node* deleteFromEnd(struct Node* head) {
     return head;
 }
 
+//delete by value
+struct Node* deleteNode(struct Node* head, struct Node* nodeToDelete) {
+    if(nodeToDelete == NULL) {
+        printf("Node to be deleted cannot be NULL.\n");
+        return head;
+    }
+
+    if(nodeToDelete->prev != NULL) {
+        nodeToDelete->prev->next = nodeToDelete->next;
+    } else {
+        //Node to delete is the head of the list
+        head = nodeToDelete->next;
+    }
+
+    if(nodeToDelete->next != NULL) {
+        nodeToDelete->next->prev = nodeToDelete->prev;
+    }
+
+    free(nodeToDelete);
+    return head;
+}
+
+//delete a node at specified index
+struct Node* deleteAtIndex(struct Node* head, int index) {
+    if(index < 0) {
+        printf("Invalid index. Index must be non-negative.\n");
+        return head;
+    }
+
+    if(head == NULL) {
+        printf("The list is Empty. Cannot delete from an empty list.\n");
+        return head;
+    }
+
+    if(index == 0) {
+        return deleteFromFront(head);
+    }
+
+    struct Node* current = head;
+    int currentIndex = 0;
+
+    while(current != NULL && currentIndex < index) {
+        current = current->next;
+        currentIndex++;
+    }
+
+    if(current == NULL) {
+        printf("Index out of bounds. Cannot delete at index %d.\n", index);
+        return head;
+    }
+
+    return deleteNode(head, current);
+}
+
 
 
 // Traverse forward
 void traverseForward(struct Node* head) {
-    printf("\nJust List > \tNULL <- ");
+    printf("\nJust List > \tNULL <-> ");
     while(head != NULL) {
         printf("%d <-> ", head->data);
         head = head->next;
     }
     printf("NULL\n\n");
+}
+
+//traverse backwards
+void traverseBackward(struct Node* head) {
+    if(head == NULL) {
+        printf("List (Backward): NULL\n");
+        return;
+    }
+    //Find the last node in the list
+    while(head->next != NULL) {
+        head = head->next;
+    }
+
+    printf("\nJust List > \tNULL <-> ");
+    while(head != NULL) {
+        printf("%d <-> ", head->data);
+        head = head->prev;
+    }
+    printf("NULL\n\n");
+}
+
+//getLength
+int getLength(struct Node* head) {
+    int length = 0;
+    while(head != NULL) {
+        length++;
+        head = head->next;
+    }
+    return length;
+}
+
+//reverse the order of the list
+struct Node* reverseList(struct Node* head) {
+    struct Node* current = head;
+    struct Node* temp = NULL;
+
+    while(current != NULL) {
+        temp = current->prev;
+        current->prev = current->next;
+        current->next = temp;
+        current = current->prev;
+    }
+
+    if(temp != NULL) {
+        head = temp->prev;
+    }
+    return head;
+}
+
+//destroyList
+void destroyList(struct Node* head) {
+    struct Node* current = head;
+    while(current != NULL) {
+        struct Node* temp = current;
+        current = current->next;
+        free(temp);
+    }
 }
 
 void main() {
@@ -199,8 +310,8 @@ void main() {
         printf("11. Traverse Backward\n");
         printf("12. Search for a Node\n");
         printf("13. Get Length\n");
-        printf("15. Reverse List\n");
-        printf("17. Exit\n");
+        printf("14. Reverse List\n");
+        printf("15. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -244,47 +355,49 @@ void main() {
             case 7:
                 list = deleteFromEnd(list);
                 break;
-            // case 8:
-            //     printf("Enter the value of the node to delete: ");
-            //     scanf("%d", &data);
-            //     node = search(list, data);
-            //     list = deleteNode(list, node);
-            //     break;
-            // case 9:
-            //     printf("Enter the index of the node to delete: ");
-            //     scanf("%d", &index);
-            //     list = deleteAtIndex(list, index);
-            //     break;
+            case 8:
+                printf("Enter the value of the node to delete: ");
+                scanf("%d", &data);
+                node = search(list, data);
+                list = deleteNode(list, node);
+                break;
+            case 9:
+                printf("Enter the index of the node to delete: ");
+                scanf("%d", &index);
+                list = deleteAtIndex(list, index);
+                break;
             case 10:
                 traverseForward(list);
                 system("pause");
                 break;
-            // case 11:
-            //     traverseBackward(list);
-            //     system("pause");
-            //     break;
-            // case 12:
-            //     printf("Enter the value to search for: ");
-            //     scanf("%d", &data);
-            //     node = search(list, data);
-            //     if (node != NULL) {
-            //         printf("Node found in the list.\n");
-            //     } else {
-            //         printf("Node not found in the list.\n");
-            //     }
-            //     break;
-            // case 13:
-            //     printf("Length of the list: %d\n", getLength(list));
-            //     break;
-            // case 14:
-            //     list = reverseList(list);
-            //     break;
-            case 17:
-                // destroyList(list);
+            case 11:
+                traverseBackward(list);
+                system("pause");
+                break;
+            case 12:
+                printf("Enter the value to search for: ");
+                scanf("%d", &data);
+                node = search(list, data);
+                if (node != NULL) {
+                    printf("Node found in the list.\n");
+                } else {
+                    printf("Node not found in the list.\n");
+                }
+                system("pause");
+                break;
+            case 13:
+                printf("Length of the list: %d\n", getLength(list));
+                system("pause");
+                break;
+            case 14:
+                list = reverseList(list);
+                break;
+            case 15:
+                destroyList(list);
                 printf("Exiting the program. Goodbye!\n");
                 break;
             default:
                 printf("Invalid choice. Please enter a valid option.\n");
         }
-    } while (choice != 17);
+    } while (choice != 15);
 }
