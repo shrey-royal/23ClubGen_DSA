@@ -1,0 +1,23 @@
+Queue Data Structure: Follows the FIFO (First In First Out) principle.
+
+> Simple (One ended) queue
+> Double Ended Queue (Deque)
+
+Basic Operations performed on a queue:
+    1. Enqueue (Insertion at the end)
+    2. Dequeue (Deletion from the front)
+    3. Front (Peek)
+    4. Rear (Peek)
+    5. isEmpty
+    6. isFull
+
+Applications of Queue:
+    1. CPU Scheduling
+    2. Disk Scheduling
+    3. Simulations
+    4. Call Center Phone Systems
+    5. Handling of Interrupts in real time systems
+    6. Traffic Management
+    7. Asynchronous Data Transfer
+    8. IO Buffers
+    9. Accessing shared resources in a multi-threaded environment
