@@ -1,0 +1,29 @@
+1. Supermarket billing system: A supermarket uses a queue to manage its billing system. Each customer is added to the queue when they arrive at the checkout counter. The billing process is initiated for the customer at the front of the queue, and when it is complete, the customer is removed from the queue. This ensures that customers are served in the order they arrived at the counter.
+
+Sample data:
+
+Customer 1: arrived at 10:00 AM, has 4 items to bill
+Customer 2: arrived at 10:05 AM, has 3 items to bill
+Customer 3: arrived at 10:15 AM, has 2 items to bill
+Customer 4: arrived at 10:30 AM, has 5 items to bill
+Explanation: In this scenario, each customer is added to the queue in the order they arrived at the counter. When the first customer's billing process is complete, they are removed from the queue, and the billing process begins for the second customer. This continues until all customers have been served.
+
+2. Call center support queue: A call center uses a queue to manage its customer support system. Each incoming call is added to the queue and answered in the order it was received. If all the support representatives are busy, the call is added to the queue until a representative is available.
+
+Sample data:
+
+Call 1: received at 9:00 AM, waiting time is 2 minutes
+Call 2: received at 9:05 AM, waiting time is 5 minutes
+Call 3: received at 9:15 AM, waiting time is 7 minutes
+Call 4: received at 9:30 AM, waiting time is 3 minutes
+Explanation: In this scenario, each incoming call is added to the queue in the order it was received. If a support representative is available, they answer the call, and the customer's waiting time is calculated. If all the support representatives are busy, the customer's call is added to the queue until a representative is available.
+
+3. Ticket reservation system: An online ticket reservation system uses a queue to manage ticket bookings. When a customer requests a ticket, the system adds the request to the queue, and the ticket is booked in the order it was received. This ensures that customers are served in the order they requested tickets.
+
+Sample data:
+
+Customer 1: requested a ticket at 10:00 AM, for a show at 7:00 PM
+Customer 2: requested a ticket at 10:05 AM, for a show at 8:00 PM
+Customer 3: requested a ticket at 10:10 AM, for a show at 9:00 PM
+Customer 4: requested a ticket at 10:15 AM, for a show at 7:00 PM
+Explanation: In this scenario, each customer's ticket request is added to the queue in the order it was received. The tickets are booked in the order they were received, ensuring that customers are served in the order they requested tickets.
