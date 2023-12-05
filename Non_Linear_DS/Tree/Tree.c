@@ -2,11 +2,12 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<string.h>
+typedef struct Node* node;
 
 struct Node {
     int data;
-    struct Node* left;
-    struct Node* right;
+    node left;
+    node right;
 };
 
 struct ListNode {
@@ -14,14 +15,15 @@ struct ListNode {
     struct ListNode* next;
 };
 
-struct Node* createNode(int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+
+node createNode(int data) {
+    node newNode = (node)malloc(sizeof(struct Node));
     newNode->data = data;
     newNode->left = newNode->right = NULL;
     return newNode;
 }
 
-struct Node* insert(struct Node* root, int data) {
+node insert(node root, int data) {
     if(root == NULL) return createNode(data);
 
     if(data < root->data) {
@@ -32,7 +34,7 @@ struct Node* insert(struct Node* root, int data) {
     return root;
 }
 
-void inorder(struct Node* root) {
+void inorder(node root) {
     if(root != NULL) {
         inorder(root->left);
         printf("%d ", root->data);
@@ -40,7 +42,7 @@ void inorder(struct Node* root) {
     }
 }
 
-void preorder(struct Node* root) {
+void preorder(node root) {
     if(root != NULL) {
         printf("%d ", root->data);
         preorder(root->left);
@@ -48,7 +50,7 @@ void preorder(struct Node* root) {
     }
 }
 
-void postorder(struct Node* root) {
+void postorder(node root) {
     if(root != NULL) {
         postorder(root->left);
         postorder(root->right);
@@ -56,13 +58,13 @@ void postorder(struct Node* root) {
     }
 }
 
-struct Node* search(struct Node* root, int value) {
+node search(node root, int value) {
     if(root == NULL || root->data == value) return root;
     if(value < root->data) return search(root->left, value);
     return search(root->right, value);
 }
 
-int height(struct Node* root) {
+int height(node root) {
     if(root == NULL) return 0;
     int leftHeight = height(root->left);
     int rightHeight = height(root->right);
@@ -70,40 +72,40 @@ int height(struct Node* root) {
     return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
 }
 
-void levelorderTraversal(struct Node* root) {
+void levelorderTraversal(node root) {
     if(root == NULL) return;
 
-    struct Node* queue[10];
+    node queue[10];
     int f=0, r=0;
 
     queue[r++] = root;
 
     printf("\nLevelorderTraversal: ");
     while (f < r) {
-        struct Node* current = queue[f++];
+        node current = queue[f++];
         printf("%d ", current->data); 
         if(current->left != NULL) queue[r++] = current->left;
         if(current->right != NULL) queue[r++] = current->right;
     }   
 }
 
-struct Node* deleteNode(struct Node* root, int data) {
+node deleteNode(node root, int data) {
     if(root == NULL) return root;
 
     if(data < root->data) root->left = deleteNode(root->left, data);
     else if(data > root->data) root->right = deleteNode(root->right, data);
     else {
         if(root->left == NULL) {
-            struct Node* temp = root->right;
+            node temp = root->right;
             free(root);
             return temp;
         } else if(root->right == NULL) {
-            struct Node* temp = root->left;
+            node temp = root->left;
             free(root);
             return temp;
         }
 
-        struct Node* temp = root->right;
+        node temp = root->right;
         while(temp->left != NULL) {
             temp = temp->left;
         }
@@ -114,7 +116,7 @@ struct Node* deleteNode(struct Node* root, int data) {
     return root;
 }
 
-void findMinMax(struct Node* root, int* min, int* max) {
+void findMinMax(node root, int* min, int* max) {
     if(root == NULL) return;
 
     if(root->data < *min) *min = root->data;
@@ -124,7 +126,92 @@ void findMinMax(struct Node* root, int* min, int* max) {
     findMinMax(root->right, min, max);
 }
 
-void printTree(struct Node* root, int space) {
+void insertAtEnd(struct ListNode** head, int data) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if(*head == NULL) {
+        *head = newNode;
+        return;
+    }
+
+    struct ListNode *last = *head;
+    while(last->next != NULL) {
+        last = last->next;
+    }
+    last->next = newNode;
+}
+
+void convertBSTtoLinkedList(node root, struct ListNode** head) {
+    if(root == NULL) return;
+
+    convertBSTtoLinkedList(root->left, head);
+    insertAtEnd(head, root->data);
+    convertBSTtoLinkedList(root->right, head);
+}
+
+void printList(struct ListNode* head) {
+    if(head == NULL) {
+        printf("\nList is Empty!");
+        return;
+    }
+
+    struct ListNode* temp = head;
+    while(temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+void serializeTree(node root, FILE *fp) {
+    if(root == NULL) {
+        fprintf(fp, "N ");  //N = NULL
+        return;
+    }
+
+    fprintf(fp, "%d ", root->data);
+    serializeTree(root->left, fp);
+    serializeTree(root->right, fp);
+}
+
+node deserializeTree(FILE *fp) {
+    char token[10];
+    fscanf(fp, "%s", token);
+
+    if(strcmp(token, "N") == 0) return NULL;
+    
+    int data = atoi(token);
+    node root = createNode(data);
+
+    root->left = deserializeTree(fp);
+    root->right = deserializeTree(fp);
+
+    return root;
+}
+
+node findLCA(node root, int n1, int n2) {
+    if(root == NULL || root->data == n1 || root->data == n2) return root;
+
+    node leftLCA = findLCA(root->left, n1, n2);
+    node rightLCA = findLCA(root->right, n1, n2);
+
+    if(leftLCA != NULL && rightLCA != NULL) return root;
+
+    return (leftLCA != NULL) ? leftLCA : rightLCA;
+}
+
+void pruneTree(node* root) {
+    if(*root != NULL) {
+        pruneTree(&((*root)->left));
+        pruneTree(&((*root)->right));
+        free(*root);
+        *root = NULL;
+    }
+}
+
+void printTree(node root, int space) {
     if(root == NULL) {
         return;
     }
@@ -144,7 +231,8 @@ void printTree(struct Node* root, int space) {
 // tree: 1 8 1 3 1 10 1 1 1 6 1 14 1 4 1 7 1 13
 int main() {
     struct ListNode* head = NULL;
-    struct Node* root = NULL;
+    node root = NULL;
+    FILE *fp = NULL;
     int choice, data, min, max;
 
     do{
@@ -238,23 +326,50 @@ int main() {
                 break;
 
             case 10:
-                //
+                convertBSTtoLinkedList(root, &head);
+                printList(head);
+                system("pause");
                 break;
 
             case 11:
-                //
+                fp = fopen("store_tree.txt", "w");
+                if(fp == NULL) {
+                    fprintf(stderr, "\nError opening file for writing.\n");
+                    return 1;
+                }
+                serializeTree(root, fp);
+                fclose(fp);
+                printf("\n");
+                system("pause");
                 break;
 
             case 12:
-                //
+                fp = fopen("store_tree.txt", "r");
+                if(fp == NULL) {
+                    fprintf(stderr, "\nError opening file for reading.\n");
+                    return 1;
+                }
+                root = deserializeTree(fp);
+                fclose(fp);
+                printTree(root, 0);
+                printf("\n");
+                system("pause");
                 break;
 
             case 13:
-                //
+                printf("Enter two keys to find LCA: ");
+                int n1, n2;
+                scanf("%d %d", &n1, &n2);
+                node lca = findLCA(root, n1, n2);
+                if (lca != NULL)
+                    printf("Lowest Common Ancestor of %d and %d: %d\n", n1, n2, lca->data);
+                else
+                    printf("One or both keys not present in the tree.\n");
+                system("pause");
                 break;
 
             case 14:
-                //
+                pruneTree(&root);
                 break;
 
             case 15:
