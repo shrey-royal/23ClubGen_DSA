@@ -1,0 +1,58 @@
+A graph is a data structure that consists of a collection of nodes (vertices) and edges that connect pairs of nodes. Graphs are used to represent relationships between objects.
+
+Nodes in a graph can be connected by edges, which can be directed or undirected, indicating the directionality of the relationship between nodes. Graphs can be represented visually with nodes as points or circles and edges as lines or arrows.
+
+Graphs have various applications in computer science, such as modeling networks (social networks, transportation networks), representing dependencies (in tasks, projects), solving optimization problems, and more. They come in different types, like directed graphs, undirected graphs, weighted graphs (where edges have associated weights or costs), and many more, each suited to specific problem-solving scenarios.
+
+
+Terminology: 
+
+1. Vertex/Node: A fundamental unit within a graph that represents an entity or an object. In diagrams, these are usually depicted as points or circles.
+
+2. Edge: A connection between two vertices, indicating a relationship or association between them. It can be directed (with an arrow indicating the direction) or undirected (without a specific direction).
+
+3. Directed Edge: An edge with a specified direction, indicating a one-way connection from one vertex to another.
+
+4. Undirected Edge: An edge that doesn’t have a specific direction, implying a bidirectional connection between two vertices.
+
+5. Weight: In a weighted graph, each edge may have a value or a weight assigned to it, representing a cost, distance, or any other relevant metric associated with the connection between vertices.
+
+6. Degree: For a vertex in an undirected graph, the degree refers to the number of edges incident to that vertex. In a directed graph, vertices have both an in-degree (number of incoming edges) and an out-degree (number of outgoing edges).
+
+7. Path: A sequence of vertices where each consecutive pair is connected by an edge. A path can be simple (no repeated vertices) or a cycle (which forms a closed loop).
+
+8. Connected Graph: A graph where there is a path between every pair of vertices. In an undirected graph, this means there are no disconnected components. In a directed graph, it implies strong connectivity, where there's a directed path between every pair of vertices.
+
+9. Disconnected Graph: A graph consisting of two or more disconnected components, meaning there's at least one pair of vertices without a path between them.
+
+10. Subgraph: A subset of a graph's vertices and edges, maintaining the connections within that subset.
+
+11. Adjacency: Describes the relationship between two vertices that are connected by an edge.
+
+12. Adjacency Matrix: A way to represent connections between vertices in a graph using a matrix, where rows and columns represent vertices, and the entries indicate whether an edge exists between two vertices.
+
+Graph Operations:
+
+1. Traversal:
+    - Depth-First Search (DFS): Visiting all the vertices of a graph using a depth-wise approach.
+    - Breadth-First Search (BFS): Exploring all the neighbors of a vertex before moving on to their neighbors, done level by level.
+
+2. Connectivity:
+    - Checking Connectivity: Determining if a graph is connected or finding connected components within a graph.
+    - Finding Shortest Paths: Calculating the shortest path between two vertices using algorithms like Dijkstra's algorithm or Bellman-Ford algorithm.
+
+3. Topological Sorting:
+    - Arranging the vertices of a directed graph in a linear order, respecting the directions of the edges.
+
+4. Cycle Detection:
+    - Identifying cycles (closed loops) within a graph, particularly in directed graphs (Directed Acyclic Graphs, or DAGs, don't contain cycles).
+
+5. Minimum Spanning Tree:
+    - Finding the subset of edges that forms a tree including all the vertices and minimizing the total edge weight.
+
+6. Graph Representation:
+    - Choosing the best representation for a given graph (e.g., adjacency matrix, adjacency list) based on the specific operations required.
+
+7. Graph Modification:
+    - Adding or removing vertices and edges.
+    - Modifying weights or attributes associated with vertices or edges.
