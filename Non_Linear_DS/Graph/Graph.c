@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<limits.h>
 
 #define MAX_NODES 100
 
@@ -42,6 +43,24 @@ int main() {
                 int dfsStart;
                 scanf("%d", &dfsStart);
                 depthFirstSearch(dfsStart);
+                break;
+
+            case 2:
+                printf("\nEnter the starting node for BFS: ");
+                int bfsStart;
+                scanf("%d", &bfsStart);
+                breadthFirstSearch(bfsStart);
+                break;
+
+            case 3:
+                printf("\nEnter the starting node for Dijkstra's Algorithm: ");
+                int dijkstraStart;
+                scanf("%d", &dijkstraStart);
+                dijkstra(dijkstraStart);
+                break;
+
+            case 7:
+                adjacencyMatrix(numNodes);
                 break;
             
             case 8:
@@ -109,6 +128,82 @@ void depthFirstSearch(int startNode) {
     printf("\n");
 }
 
+void breadthFirstSearch(int startNode) {
+    int queue[MAX_NODES];
+    int front = -1, rear = -1;
+    int visited[MAX_NODES] = {0};
+
+    printf("Breadth-First Search starting from node %d: ", startNode);
+
+    visited[startNode] = 1;
+    queue[++rear] = startNode;
+
+    while(front != rear) {
+        int currentNode = queue[++front];
+        printf("%d ", currentNode);
+
+        for(int i=0; i<numNodes; i++) {
+            if(graph[currentNode][i] != 0 && !visited[i]) {
+                visited[i] = 1;
+                queue[++rear] = i;
+            }
+        }
+    }
+
+    printf("\n");
+}
+
+/*
+Here's a brief breakdown of what the code does:
+
+- Initializes arrays for distances and visited nodes.
+- Sets the distance from the start node to itself as 0 and initializes distances to other nodes as infinity.
+- Iterates through each node to find the shortest path.
+- Within the loop, it selects the node `u` that hasn't been visited yet and has the shortest distance.
+- Marks `u` as visited.
+- Updates distances to adjacent nodes if a shorter path is found through `u`.
+- Finally, it prints the shortest distances from the start node to all other nodes.
+
+This implementation assumes that `numNodes` is the number of nodes in the graph, `graph[u][v]` holds the weight of the edge between nodes `u` and `v` (0 if there's no edge), and `INT_MAX` represents infinity for the distances.
+
+Do you need any specific clarification or additional information about this algorithm?
+
+*/
+
+
+void dijkstra(int startNode) {
+    int distance[MAX_NODES];
+    int visited[MAX_NODES] = {0};
+
+    for(int i=0; i<numNodes; i++) {
+        distance[i] = INT_MAX;
+    }
+
+    distance[startNode] = 0;
+
+    for(int count=0; count < numNodes-1; count++) {
+        int u = -1;
+
+        for(int i=0; i<numNodes; i++) {
+            if(!visited[i] && (u == -1 || distance[i] < distance[u])) u=i;
+        }
+
+        visited[u] = 1;
+
+        for(int v=0; v < numNodes; v++) {
+            if(graph[u][v] != 0 && !visited[v] && distance[u] != INT_MAX 
+            && distance[u] + graph[u][v] < distance[v]) {
+                distance[v] = distance[u] + graph[u][v];
+            }
+        }
+
+        printf("Shortest distance from node %d using Dijkstra's Algorithm: \n", startNode);
+        for(int i=0; i<numNodes; i++) {
+            printf("Node %d: %d\n", i, distance[i]);
+        }
+    } 
+}
+
 /*
 
 0 1 2
@@ -124,6 +219,18 @@ void depthFirstSearch(int startNode) {
 1  0  0  1  7  0
 2  0  0  0  3  0
 3  0  0  0  0  1
-4  0  0  0  0  0
+4  0  0  0  0  0 
 
+
+Big:
+  0  1  2  3  4  5  6  7  8
+0 0  4  0  0  0  0  0  8  0
+1 4  0  8  0  0  0  0  11  0
+2 0  8  0  7  0  4  0  0  2
+3 0  0  7  0  9  14  0  0  0
+4 0  0  0  9  0  10  0  0  0
+5 0  0  4  14  10  0  2  0  0
+6 0  0  0  0  0  2  0  1  6
+7 8  11  0  0  0  0  1  0  7
+8 0  0  2  0  0  0  6  7  0
 */
