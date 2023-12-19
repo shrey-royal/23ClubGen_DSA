@@ -59,6 +59,13 @@ int main() {
                 dijkstra(dijkstraStart);
                 break;
 
+            case 4:
+                printf("\nEnter the starting node for BellmanFord's Algorithm: ");
+                int bellmanFordStart;
+                scanf("%d", &bellmanFordStart);
+                bellmenFord(bellmanFordStart);
+                break;
+
             case 7:
                 adjacencyMatrix(numNodes);
                 break;
@@ -204,6 +211,32 @@ void dijkstra(int startNode) {
     } 
 }
 
+void bellmenFord(int startNode) {
+    int distance[MAX_NODES];
+
+    for(int i=0; i<numNodes; i++) {
+        distance[i] = INT_MAX;
+    }
+
+    distance[startNode] = 0;
+
+    for(int count=0; count < numNodes-1; ++count) {
+        for (int u=0; u<numNodes; ++u) {
+            for(int v=0; v < numNodes; ++v) {
+                if(graph[u][v] != 0 && distance[u] != INT_MAX 
+                && distance[u] + graph[u][v] < distance[v]) {
+                    distance[v] = distance[u] + graph[u][v];
+                }
+            }
+        }
+
+        printf("Shortest distance from node %d using BellmenFord's Algorithm: \n", startNode);
+        for(int i=0; i<numNodes; i++) {
+            printf("Node %d: %d\n", i, distance[i]);
+        }
+    } 
+}
+
 /*
 
 0 1 2
@@ -211,6 +244,14 @@ void dijkstra(int startNode) {
 1 2 1
 1 3 7
 2 3 3
+3 4 1
+-1 -1 -1
+
+0 1 2
+0 2 -4
+1 2 1
+1 3 7
+2 3 -3
 3 4 1
 -1 -1 -1
 
