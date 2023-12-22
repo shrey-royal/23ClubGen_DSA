@@ -66,6 +66,14 @@ int main() {
                 bellmenFord(bellmanFordStart);
                 break;
 
+            case 5:
+                prim();
+                break;
+
+            case 6:
+                krushkal();
+                break;
+
             case 7:
                 adjacencyMatrix(numNodes);
                 break;
@@ -104,7 +112,7 @@ void initializeGraph() {
 
 void addEdge(int from, int to, int weight) {
     graph[from][to] = weight;
-    // graph[to][from] = weight;   //for undirected graph
+    graph[to][from] = weight;   //for undirected graph (for primbhai and krushkalbhai)
 }
 
 void adjacencyMatrix(int numNodes) {
@@ -235,6 +243,94 @@ void bellmenFord(int startNode) {
             printf("Node %d: %d\n", i, distance[i]);
         }
     } 
+}
+
+void prim() {
+    int parent[MAX_NODES];
+    int key[MAX_NODES];
+    int mstSet[MAX_NODES] = {0};
+
+    for(int i=0; i<numNodes; ++i) {
+        key[i] = INT_MAX;
+    }
+
+    key[0] = 0;
+    parent[0] = -1;
+
+    for(int count=0; count < numNodes-1; ++count) {
+        int u = -1;
+        for(int i=0; i<numNodes; ++i) {
+            if(!mstSet[i] && (u == -1 || key[i] < key[u])) {
+                u = i;
+            }
+        }
+
+        mstSet[u] = 1;
+
+        for(int v = 0; v<numNodes; ++v) {
+            if(graph[u][v] != 0 && !mstSet[v] && graph[u][v] < key[v]) {
+                parent[v] = u;
+                key[v] = graph[u][v];
+            }
+        }
+    }
+
+    printf("Minimum Spanning Tree using Prim's Algorithm: \n");
+    for(int i=1; i<numNodes; ++i) {
+        printf("Edge: %d - %d, Weight: %d\n", parent[i], i, graph[i][parent[i]]);
+    }
+}
+
+void unionSets(int parent[], int i, int j) {
+    int iParent = parent[i];
+    int jParent = parent[j];
+
+    parent[i] = jParent;
+    for (int k = 0; k < numNodes; ++k) {
+        if (parent[k] == iParent) {
+            parent[k] = jParent;
+        }
+    }
+}
+
+int find(int parent[], int i) {
+    return parent[i];
+}
+
+void krushkal() {
+    int parent[MAX_NODES];
+    int minEdge, u, v;
+
+    // Initialize sets for each node
+    for (int i = 0; i < numNodes; ++i) {
+        parent[i] = i;
+    }
+
+    printf("Minimum Spanning Tree using Kruskal's Algorithm:\n");
+
+    while (1) {
+        minEdge = INT_MAX;
+        u = -1;
+        v = -1;
+
+        for (int i = 0; i < numNodes; ++i) {
+            for (int j = 0; j < numNodes; ++j) {
+                if (find(parent, i) != find(parent, j) && graph[i][j] != 0 && graph[i][j] < minEdge) {
+                    minEdge = graph[i][j];
+                    u = i;
+                    v = j;
+                }
+            }
+        }
+
+        if (u == -1 || v == -1) {
+            break; // No more edges to consider
+        }
+
+        unionSets(parent, u, v);
+
+        printf("Edge: %d - %d, Weight: %d\n", u, v, minEdge);
+    }
 }
 
 /*
